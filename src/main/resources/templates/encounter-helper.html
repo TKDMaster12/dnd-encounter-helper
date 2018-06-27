@@ -30,7 +30,7 @@
                     <td th:text="${combatant.getName()}"/>
                     <td th:text="${combatant.getArmourClass()}"/>
                     <td>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-combatant-name="${combatant.name}" data-target="#hpModificationModal">
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" th:attr="data-combatant-name=${combatant.name}" data-target="#hpModificationModal">
                             <span th:remove="tag" th:text="${combatant.getCurrentHp() + ' / ' + combatant.getMaxHp()}"/>
                             <span class="fas fa-edit"></span>
                         </button>
