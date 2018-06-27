@@ -59,7 +59,7 @@
                     </div>
                     <form action="#" th:action="@{/modify-hp}" th:object="${combatantHpModel}" method="post">
                         <div class="modal-body">
-                            <input type="text" class="invisible" name="combatant-name" th:field="*{name}"/>
+                            <input type="text" class="invisible" id="combatant-name" th:field="*{name}"/>
                             <input type="text" class="form-control" id="newhp" th:field="*{newHp}"/>
                         </div>
                         <div class="modal-footer">
@@ -76,9 +76,9 @@
           $('#hpModificationModal').on('show.bs.modal', function(e) {
             //Get data from class
             var combatantName = $(e.relatedTarget).data('combatant-name');
-            console.log("Combatant Name: " + combatantName)
+
             //populate the textbox
-            $(e.currentTarget).find('input[name="combatant-name"]').val(combatantName);
+            $(e.currentTarget).find('input[id="combatant-name"]').val(combatantName);
           });
         </script>
 

@@ -24,7 +24,6 @@ public class EncounterHelperController {
     private final CombatantRepository repository;
 
     /* TODO Features
-    - Reduce current hp
     - Npc Generator form
     - Export / Import Data
      */
@@ -79,7 +78,6 @@ public class EncounterHelperController {
 
     @PostMapping("/modify-hp")
     public ModelAndView modifyHp(@ModelAttribute CombatantHpModel combatantHpModel) {
-        System.out.println(combatantHpModel);
         repository.setCombatantHp(combatantHpModel.getName(), combatantHpModel.getNewHp());
 
         //redirect to a reload of the encounter helper page
