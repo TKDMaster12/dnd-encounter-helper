@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>D&D 5e Encounter Helper</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+        <!-- Bootstrap and JQuery -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Armour Class</th>
+                    <th scope="col">Hit Points</th>
+                    <th scope="col">Initiative</th>
+                    <th scope="col">Remove from Combat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="combatant : ${combatants}">
+                    <td th:text="${combatant.getName()}"/>
+                    <td th:text="${combatant.getArmourClass()}"/>
+                    <td>
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-name="${combatant.name}" data-target="#hpModificationModal">
+                            <span th:remove="tag" th:text="${combatant.getCurrentHp() + ' / ' + combatant.getMaxHp()}"/>
+                            <span class="fas fa-edit"></span>
+                        </button>
+                    </td>
+                    <td th:text="${combatant.getCurrentInitiative()}"/>
+                    <td>
+                        <form action="#" data-th-action="@{/remove-combatant}" data-th-object="${combatantNameModel}" method="post">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <input type="text" class="invisible" th:value="${combatant.name}"/>
+                        </form>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newRoundModal">
+            New Round
+        </button>
+
+        <script>
+            //triggered when modal is about to be shown
+            $('#hpModificationModal').on('show.bs.modal', function(e) {
+                //Get data from class
+                var combatantName = $(e.relatedTarget).data('name');
+                //populate the textbox
+                $(e.currentTarget).find('input[name="combatant-name"]').val(combatantName);
+            });
+        </script>
+        <!-- Hp Modification Modal -->
+        <div class="modal fade" id="hpModificationModal" tabindex="-1" role="dialog" aria-labelledby="hpModificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="hpModificationModalLabel">Set Combatant's Hit Points</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="#" th:action="@{/modify-hp}" th:object="${combatantHpModel}" method="post">
+                        <div class="modal-body">
+                            <input type="text" class="invisible" name="combatant-name" th:field="*{name}"/>
+                            <input type="text" class="form-control" id="newhp" th:field="*{newHp}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button submit" class="btn btn-primary">Set Hit Points</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Round Setup Modal -->
+        <div class="modal fade" id="newRoundModal" tabindex="-1" role="dialog" aria-labelledby="newRoundModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Round Configuration</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="#" th:action="@{/new-round}" th:object="${playerInitative}" method="post">
+                        <div class="modal-body">
+                            <div class="form-group" th:each="element : ${playerInitative.getPlayerInitatives()}">
+                                <label for="playerInitative" th:text="${element.getKey()}"/>
+                                <input type="number" class="form-control" id="playerInitative" th:field="*{playerInitatives[__${element.key}__]}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button submit" class="btn btn-primary">Begin new Round</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
