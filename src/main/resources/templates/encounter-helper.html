@@ -30,7 +30,7 @@
                     <td th:text="${combatant.getName()}"/>
                     <td th:text="${combatant.getArmourClass()}"/>
                     <td>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-name="${combatant.name}" data-target="#hpModificationModal">
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-combatant-name="${combatant.name}" data-target="#hpModificationModal">
                             <span th:remove="tag" th:text="${combatant.getCurrentHp() + ' / ' + combatant.getMaxHp()}"/>
                             <span class="fas fa-edit"></span>
                         </button>
@@ -47,16 +47,6 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newRoundModal">
             New Round
         </button>
-
-        <script>
-            //triggered when modal is about to be shown
-            $('#hpModificationModal').on('show.bs.modal', function(e) {
-                //Get data from class
-                var combatantName = $(e.relatedTarget).data('name');
-                //populate the textbox
-                $(e.currentTarget).find('input[name="combatant-name"]').val(combatantName);
-            });
-        </script>
         <!-- Hp Modification Modal -->
         <div class="modal fade" id="hpModificationModal" tabindex="-1" role="dialog" aria-labelledby="hpModificationModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -80,6 +70,17 @@
                 </div>
             </div>
         </div>
+
+        <script>
+          //triggered when modal is about to be shown
+          $('#hpModificationModal').on('show.bs.modal', function(e) {
+            //Get data from class
+            var combatantName = $(e.relatedTarget).data('combatant-name');
+            console.log("Combatant Name: " + combatantName)
+            //populate the textbox
+            $(e.currentTarget).find('input[name="combatant-name"]').val(combatantName);
+          });
+        </script>
 
         <!-- New Round Setup Modal -->
         <div class="modal fade" id="newRoundModal" tabindex="-1" role="dialog" aria-labelledby="newRoundModalLabel" aria-hidden="true">
