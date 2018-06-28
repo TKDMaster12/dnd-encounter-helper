@@ -3,6 +3,7 @@ package com.dnd.tools.encounterhelper.ui;
 import com.dnd.tools.encounterhelper.combatant.Combatant;
 import com.dnd.tools.encounterhelper.combatant.CombatantRepository;
 import com.dnd.tools.encounterhelper.combatant.InitativeHelper;
+import com.dnd.tools.encounterhelper.combatant.NpcCreator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,8 @@ public class EncounterHelperController {
         model.addAttribute("playerInitative", playerInitativeModel);
         model.addAttribute("combatantHpModel", new CombatantHpModel());
         model.addAttribute("combatantNameModel", new CombatantNameModel());
+        model.addAttribute("newCombatantModel", new NewCombatantModel());
+        model.addAttribute("newVariableStatCombatantModel", new NewVariableStatNpcModel());
         return "encounter-helper";
     }
 
@@ -89,6 +92,37 @@ public class EncounterHelperController {
         Optional<Combatant> optionalCombatant = repository.findById(combatantNameModel.getName());
 
         optionalCombatant.ifPresent(repository::delete);
+
+        //redirect to a reload of the encounter helper page
+        return new ModelAndView("redirect:/encounter-helper");
+    }
+
+    @PostMapping("/new-combatant")
+    public ModelAndView newCombatant(@ModelAttribute NewCombatantModel newCombatantModel) {
+        System.out.println(newCombatantModel);
+        repository.save(new Combatant(
+                newCombatantModel.getName(),
+                newCombatantModel.getArmourClass(),
+                newCombatantModel.getMaxHp(),
+                newCombatantModel.getInitativeBonus(),
+                newCombatantModel.isNpc()));
+
+        //redirect to a reload of the encounter helper page
+        return new ModelAndView("redirect:/encounter-helper");
+    }
+
+    @PostMapping("/new-npc")
+    public ModelAndView newNpc(@ModelAttribute NewVariableStatNpcModel newVariableStatNpcModel) {
+        //int numberOfEnemies, String name, int armourClass, int hitDie, int level, int conMod, int initativeBonus
+        repository.saveAll(NpcCreator.createTemplatedNpc(
+                newVariableStatNpcModel.getNumberOfEnemies(),
+                newVariableStatNpcModel.getName(),
+                newVariableStatNpcModel.getArmourClass(),
+                newVariableStatNpcModel.getHitDie(),
+                newVariableStatNpcModel.getLevel(),
+                newVariableStatNpcModel.getConMod(),
+                newVariableStatNpcModel.getInitativeBonus()
+        ));
 
         //redirect to a reload of the encounter helper page
         return new ModelAndView("redirect:/encounter-helper");

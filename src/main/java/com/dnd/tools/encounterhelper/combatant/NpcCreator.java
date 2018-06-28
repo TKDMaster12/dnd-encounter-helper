@@ -7,31 +7,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class NpcCreator {
-
-    public static Combatant createNpo(String name, int armourClass, int maxHp, int initativeBonus) {
-        return new Combatant(name, armourClass, maxHp, initativeBonus, true);
-    }
-
-    public static Combatant createNpo(String name, int armourClass, int hitDie, int level, int conMod, int initativeBonus) {
-        return new Combatant(name, armourClass, getHp(hitDie, level, conMod), initativeBonus, true);
-    }
-
-    public static List<Combatant> createTemplatedNpc(int count, String name, int armourClass, int maxHp, int initativeBonus) {
-        return IntStream.range(1, count + 1)
+    public static List<Combatant> createTemplatedNpc(int numberOfEnemies, String name, int armourClass, int hitDie, int level, int conMod, int initativeBonus) {
+        return IntStream.range(1, numberOfEnemies + 1)
                 .mapToObj(enemyNumber -> new Combatant(
-                        name + "#" + enemyNumber,
-                        armourClass,
-                        maxHp,
-                        initativeBonus,
-                        true
-                ))
-                .collect(Collectors.toList());
-    }
-
-    public static List<Combatant> createTemplatedNpc(int count, String name, int armourClass, int hitDie, int level, int conMod, int initativeBonus) {
-        return IntStream.range(1, count + 1)
-                .mapToObj(enemyNumber -> new Combatant(
-                        name + "#" + enemyNumber,
+                        // Only add numbers if there will be more than 1 of these enemies created
+                        name + (numberOfEnemies != 1 ?"#" + enemyNumber : ""),
                         armourClass,
                         getHp(hitDie, level, conMod),
                         initativeBonus,
