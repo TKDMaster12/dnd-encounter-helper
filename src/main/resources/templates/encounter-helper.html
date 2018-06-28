@@ -13,66 +13,72 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
+       <!-- Custom StyleSheet -->
+        <link rel="stylesheet" href="css/encounter-helper.css"/>
     </head>
     <body>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Armour Class</th>
-                    <th scope="col">Hit Points</th>
-                    <th scope="col">Initiative</th>
-                    <th scope="col">Remove from Combat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="combatant : ${combatants}">
-                    <td th:text="${combatant.getName()}"/>
-                    <td th:text="${combatant.getArmourClass()}"/>
-                    <td>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" th:attr="data-combatant-name=${combatant.name},data-combatant-current-hp=${combatant.currentHp}" data-target="#hpModificationModal">
-                            <span th:remove="tag" th:text="${combatant.getCurrentHp() + ' / ' + combatant.getMaxHp()}"/>
-                            <span class="fas fa-edit"></span>
-                        </button>
-                    </td>
-                    <td th:text="${combatant.getCurrentInitiative()}"/>
-                    <td>
-                        <form action="#" data-th-action="@{/remove-combatant}" data-th-object="${combatantNameModel}" method="post">
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                            <input type="text" class="invisible" th:value="${combatant.name}"/>
-                        </form>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
+        <div class="fancy-formating-magic">
+            <h1 class="text-center">D&D Encounter Helper</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Armour Class</th>
+                        <th scope="col">Hit Points</th>
+                        <th scope="col">Initiative</th>
+                        <th scope="col">Remove from Combat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="combatant : ${combatants}">
+                        <td th:text="${combatant.getName()}"/>
+                        <td th:text="${combatant.getArmourClass()}"/>
+                        <td>
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" th:attr="data-combatant-name=${combatant.name},data-combatant-current-hp=${combatant.currentHp}" data-target="#hpModificationModal">
+                                <span th:remove="tag" th:text="${combatant.getCurrentHp() + ' / ' + combatant.getMaxHp()}"/>
+                                <span class="fas fa-edit"></span>
+                            </button>
+                        </td>
+                        <td th:text="${combatant.getCurrentInitiative()}"/>
+                        <td>
+                            <form action="#" data-th-action="@{/remove-combatant}" data-th-object="${combatantNameModel}" method="post">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                                <input type="text" class="invisible" th:value="${combatant.name}"/>
+                            </form>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-deck">
+                <div class="card card-cascade wider">
                     <div class="card-body">
                         <h5 class="card-title">Start a new Round</h5>
                         <p class="card-text">Setup a new round by getting player initatives and re-rolling all enemy initative values.</p>
+                    </div>
+                    <div class="card-footer">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newRoundModal">New Round</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
+                <div class="card card-cascade wider">
                     <div class="card-body">
-                        <h5 class="card-title">Generate fixed stat enemy(s)</h5>
-                        <p class="card-text">TODO</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title">Generate fixed stat combatant(s)</h5>
+                        <p class="card-text">Add player characters or Npcs with fixed stats.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fixedStatCombatantModal">Add Combatant</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
+                <div class="card card-cascade wider">
                     <div class="card-body">
                         <h5 class="card-title">Generate varied stat enemy(s)</h5>
-                        <p class="card-text">TODO</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <p class="card-text">Add enemies with rolled stats.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variableStatEnemyModal">Add Combatant</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Hp Modification Modal -->
         <div class="modal fade" id="hpModificationModal" tabindex="-1" role="dialog" aria-labelledby="hpModificationModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
