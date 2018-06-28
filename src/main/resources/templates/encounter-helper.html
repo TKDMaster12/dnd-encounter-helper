@@ -73,7 +73,7 @@
                         <p class="card-text">Add enemies with rolled stats.</p>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variableStatEnemyModal">Add Combatant</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variableStatNpcsModal">Add Combatant</button>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,42 @@
                             <input type="number" class="form-control" id="initativeBonus" th:field="*{initativeBonus}">
                             <input type="radio" name="isNpc" value="false" th:field="*{npc}" checked> Player<br>
                             <input type="radio" name="isNpc" value="true" th:field="*{npc}" > NPC<br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button submit" class="btn btn-primary">Generate Combatant</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate variable stat npcs modal -->
+        <div class="modal fade" id="variableStatNpcsModal" tabindex="-1" role="dialog" aria-labelledby="variableStatNpcsModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newVariableStatNpcsModal">New Variable Stat Npcs</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="#" th:action="@{/new-npcs}" th:object="${newVariableStatCombatantModel}" method="post">
+                        <div class="modal-body">
+                            <label for="npcName">Npc Name: </label>
+                            <input type="text" class="form-control" id="npcName" th:field="*{name}">
+                            <label for="npcArmourClass">Armour Class: </label>
+                            <input type="number" class="form-control" id="npcArmourClass" th:field="*{armourClass}">
+                            <label for="hitDie">Hit Die: </label>
+                            <input type="number" class="form-control" id="hitDie" th:field="*{hitDie}">
+                            <label for="level">Level (minimum 1): </label>
+                            <input type="number" class="form-control" id="level" th:field="*{level}">
+                            <label for="conMod">Constitution Modifier: </label>
+                            <input type="number" class="form-control" id="conMod" th:field="*{conMod}">
+                            <label for="npcInitativeBonus">Initiative Bonus: </label>
+                            <input type="number" class="form-control" id="npcInitativeBonus" th:field="*{initativeBonus}">
+                            <label for="numberOfEnemies">Number of Enemies: </label>
+                            <input type="number" class="form-control" id="numberOfEnemies" th:field="*{numberOfEnemies}">
                         </div>
                         <div class="modal-footer">
                             <button type="button reset" class="btn btn-secondary" data-dismiss="modal">Close</button>

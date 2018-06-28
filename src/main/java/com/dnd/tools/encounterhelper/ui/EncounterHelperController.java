@@ -111,7 +111,7 @@ public class EncounterHelperController {
         return new ModelAndView("redirect:/encounter-helper");
     }
 
-    @PostMapping("/new-npc")
+    @PostMapping("/new-npcs")
     public ModelAndView newNpc(@ModelAttribute NewVariableStatNpcModel newVariableStatNpcModel) {
         //int numberOfEnemies, String name, int armourClass, int hitDie, int level, int conMod, int initativeBonus
         repository.saveAll(NpcCreator.createTemplatedNpc(

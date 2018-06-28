@@ -33,54 +33,15 @@ public class EncounterHelperApplication {
 
             Combatant joe = new Combatant(
                     "player-joe",
-                    17,
-                    38,
-                    0,
+                    19,
+                    42,
+                    6,
                     false
             );
             joe.setCurrentInitiative(15);
 
-
-            Combatant matt = new Combatant(
-                    "player-matt",
-                    17,
-                    38,
-                    0,
-                    false
-            );
-            matt.setCurrentInitiative(10);
-            matt.setInitativeBonus(0);
-
-            Combatant phil = new Combatant(
-                    "player-phil",
-                    17,
-                    38,
-                    1,
-                    false
-            );
-            phil.setCurrentInitiative(10);
-
-
-            Combatant npc1 = new Combatant(
-                    "npc1",
-                    17,
-                    38,
-                    0,
-                    true
-            );
-            npc1.setCurrentInitiative(10);
-
-            Combatant npc2 = new Combatant(
-                    "npc2",
-                    17,
-                    38,
-                    1,
-                    true
-            );
-            npc2.setCurrentInitiative(10);
-
-            List<Combatant> templateNpcs = NpcCreator.createTemplatedNpc(10, "npcTemplate", 13, 8, 6, 2, 3);
-            repository.saveAll(Arrays.asList(bob, joe, matt, phil, npc1, npc2));
+            List<Combatant> templateNpcs = NpcCreator.createTemplatedNpc(4, "npcTemplate", 13, 8, 6, 2, 3);
+            repository.saveAll(Arrays.asList(bob, joe));
             repository.saveAll(templateNpcs);
         };
     }
