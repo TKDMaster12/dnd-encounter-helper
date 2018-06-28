@@ -44,4 +44,15 @@ The bottom right card is a modal for creating npc(s) with variable stat template
 
 ### Running Locally
 
-### 
+You will need to have Java installed the download link can be found here:
+[Java](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase9-3934878.html)
+
+You will also need your environment variables configured
+[Java Environment variables](https://confluence.atlassian.com/doc/setting-the-java_home-variable-in-windows-8895.html)
+
+Then open a command prompt into the project directory and run:
+```java
+mvnw spring-boot:run
+```
+
+Finally open your web browser and navigate to: `localhost:8080`
