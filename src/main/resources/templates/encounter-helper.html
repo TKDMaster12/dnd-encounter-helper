@@ -43,7 +43,7 @@
                         <td>
                             <form action="#" data-th-action="@{/remove-combatant}" data-th-object="${combatantNameModel}" method="post">
                                 <button type="submit" class="btn btn-danger">Remove</button>
-                                <input type="text" class="invisible" th:value="${combatant.name}"/>
+                                <input type="hidden" th:value="${combatant.name}"/>
                             </form>
                     </tr>
                 </tbody>
