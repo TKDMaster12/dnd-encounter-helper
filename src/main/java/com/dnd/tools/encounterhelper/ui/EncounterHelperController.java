@@ -24,11 +24,6 @@ public class EncounterHelperController {
 
     private final CombatantRepository repository;
 
-    /* TODO Features
-    - Npc Generator form
-    - Export / Import Data
-     */
-
     @GetMapping("/encounter-helper")
     public String encounterHelper(Model model) {
         List<Combatant> combatants = StreamSupport.stream(
